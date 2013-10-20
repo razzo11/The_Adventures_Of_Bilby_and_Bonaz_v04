@@ -23,8 +23,7 @@ public class IronSword extends Weapon {
 	@Override
 	public void statEffects(Character c) 
 	{
-		
-
+		//this weapon does not modify stats
 	}
 
 }

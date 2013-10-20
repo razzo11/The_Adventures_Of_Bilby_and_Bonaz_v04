@@ -14,7 +14,6 @@ public class Character
    private Defense defense = new Defense(this);
    private Toughness toughness = new Toughness(this);
    private Weapon weapon;
-   private double attackDamage;
    
    public Status status;    
    //5 items and 5 abilities
@@ -29,6 +28,7 @@ public class Character
     	setCurrentMaxStrength(9);
     	setCurrentMaxToughness(10);
     	setCurrentMaxDefense(10);
+    	setSpawnWeapon();
     	//going to try to find a better way to order these
     	stats.add(health);
     	stats.add(strength);
@@ -40,7 +40,7 @@ public class Character
     
     public void setSpawnWeapon()
     {
-    	weapon = new IronSword
+    	weapon = new IronSword(this);
     }
     
     public Weapon getWeapon()
@@ -146,12 +146,24 @@ public class Character
 	
 	public double attack()
 	{
-		return getStrength().getValue() *
+		return (getStrength().getValue()) + (1.8 * getWeapon().getWeaponDamage());
 	}
 	
 	public void useAbility(Ability a)
 	{
 		a.activate(this);
+	}
+	
+	public void addItemToInventory(Item i)
+	{
+		try
+		{
+			inventory.add(i);
+		}
+		catch(Exception e)
+		{
+			System.out.println("Inventory full");
+		}
 	}
 
 }

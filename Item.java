@@ -8,6 +8,11 @@ public class Item
 	public ItemTypes type;
 	
 	//making items
+	public Item()
+	{
+		//just in case
+	}
+	
 	public Item(Character c)
 	{
 		name = "Item";

@@ -6,6 +6,13 @@ public class DivineBlessing extends Item
 	private static final String ITEM_NAME = "Divine Blessing";
 	private static final String ITEM_DESC = "A frothy golden liquid. Handed down by The Goddess. Extremely rare. Effects unknown.";
 	
+	public DivineBlessing()
+	{
+		super();
+		setDesc(ITEM_DESC);
+		setName(ITEM_NAME);
+	}
+	
 	public DivineBlessing(Character c) 
 	{
 		super(c);

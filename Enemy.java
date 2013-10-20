@@ -9,6 +9,7 @@ public class Enemy
 	private static final double BASE_HEALTH = 35;
 	public Status status;
 	public EnemyTypes type;
+	public DefenseType dt;
 	private double health;
 	private int res, strength;
 	private String name, desc;
@@ -22,6 +23,7 @@ public class Enemy
 		name = "An enemy";
 		desc = "A bio";
 		status = Status.ALIVE;
+		dt = null;
 	}
 	
 	//make an enemy with specialized name and description
@@ -33,9 +35,15 @@ public class Enemy
 		name = n;
 		desc = b;
 		status = Status.ALIVE;
+		dt = null;
 	}
 	
 	//set and get methods to be used outside class (same as character)
+	public void setDefenseType(DefenseType t)
+	{
+		dt = t;
+	}
+	
 	public void setRes(int r)
 	{
 		if(r <= BASE_RES)
@@ -98,7 +106,11 @@ public class Enemy
 	
 	public void getAttacked(Character c)
 	{
-		health -= c.
+		health -= (c.attack()) - (1.5 * res);
+		if(health <= 0)
+		{
+			status = Status.DEAD;
+		}
 	}
 
 }
