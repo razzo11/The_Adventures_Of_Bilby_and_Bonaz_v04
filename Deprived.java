@@ -15,7 +15,6 @@ public class Deprived extends Enemy implements SpecialEnemyDropsItem
 		super();
 		setDesc(DEPRIVED_BIO);
 		setName(ENEMY_NAME);
-		setDefenseType(DefenseType.DEVOID);
 	}
 
 	public Deprived(String n, String b) 

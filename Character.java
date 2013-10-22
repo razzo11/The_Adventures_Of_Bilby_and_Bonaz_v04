@@ -5,7 +5,7 @@ import java.util.*;
 public class Character 
 {
 	
-	//declaring some variables
+	/////////////////////////////////////////////////VARIABLES////////////////////////////////////////////////////////////////
    private int currentMaxStrength, currentMaxToughness, currentMaxDefense;
    private String name, bio;
    private Health health = new Health(this);
@@ -14,13 +14,16 @@ public class Character
    private Defense defense = new Defense(this);
    private Toughness toughness = new Toughness(this);
    private Weapon weapon;
-   
-   public Status status;    
+   private Armor armor;
+   private boolean isCharBloodied;
+   private Status status;    
    //5 items and 5 abilities
    private ArrayList<Item> inventory = new ArrayList<Item>(5);
    private ArrayList<Ability> abilities = new ArrayList<Ability>(5);
    private ArrayList<Stat> stats = new ArrayList<Stat>(5); //hlth, str, def, tgh, wlt
     
+   /////////////////////////////////////////////////////CONSTRUCTORS///////////////////////////////////////////////////////////////
+   
     public Character(String name, String bio)
     {
     	this.name = name;
@@ -29,6 +32,7 @@ public class Character
     	setCurrentMaxToughness(10);
     	setCurrentMaxDefense(10);
     	setSpawnWeapon();
+    	setSpawnArmor();
     	//going to try to find a better way to order these
     	stats.add(health);
     	stats.add(strength);
@@ -36,6 +40,14 @@ public class Character
     	stats.add(toughness);
     	stats.add(wallet);
     	abilities.clear();
+    	setCharBloodied(false);
+    }
+    
+    ////////////////////////////////////////////////////////SETTERS AND GETTERS///////////////////////////////////////////////////////
+    
+    public void setSpawnArmor()
+    {
+    	equipArmor(new IronArmor(this));
     }
     
     public void setSpawnWeapon()
@@ -53,7 +65,17 @@ public class Character
     	this.weapon = w;
     }
     
-    public Health getHealth()
+    public Armor getArmor() 
+    {
+		return armor;
+	}
+
+	public void equipArmor(Armor armor) 
+	{
+		this.armor = armor;
+	}
+
+	public Health getHealth()
     {
     	return health;
     }
@@ -76,21 +98,6 @@ public class Character
     public Wallet getWallet()
     {
     	return wallet;
-    }
-    
-    public void raiseCurrentMaxStrength()
-    {
-    	currentMaxStrength++;
-    }
-    
-    public void raiseCurrentMaxToughness()
-    {
-    	currentMaxToughness++;
-    }
-    
-    public void raiseCurrentMaxDefense()
-    {
-    	currentMaxDefense++;
     }
     
     public void setBio(String b)
@@ -118,40 +125,54 @@ public class Character
 		return currentMaxDefense;
 	}
 
-	public void setCurrentMaxDefense(int currentMaxDefense) {
+	public void setCurrentMaxDefense(int currentMaxDefense) 
+	{
 		this.currentMaxDefense = currentMaxDefense;
 	}
 
-	public int getCurrentMaxToughness() {
+	public int getCurrentMaxToughness() 
+	{
 		return currentMaxToughness;
 	}
 
-	public void setCurrentMaxToughness(int currentMaxToughness) {
+	public void setCurrentMaxToughness(int currentMaxToughness) 
+	{
 		this.currentMaxToughness = currentMaxToughness;
 	}
 
-	public int getCurrentMaxStrength() {
+	public int getCurrentMaxStrength()
+	{
 		return currentMaxStrength;
 	}
 
-	public void setCurrentMaxStrength(int currentMaxStrength) {
+	public void setCurrentMaxStrength(int currentMaxStrength) 
+	{
 		this.currentMaxStrength = currentMaxStrength;
 	}
+	
+	////////////////////////////////////////////////////////////MANIPULATE STATS/////////////////////////////////////////////////////////////
+	
+	public void raiseCurrentMaxStrength()
+    {
+    	currentMaxStrength++;
+    }
+    
+    public void raiseCurrentMaxToughness()
+    {
+    	currentMaxToughness++;
+    }
+    
+    public void raiseCurrentMaxDefense()
+    {
+    	currentMaxDefense++;
+    }
+	
+	///////////////////////////////////////////////////INVENTORY MANIPULATION//////////////////////////////////////////////////////////
 
 	public boolean searchInventory(Item i)
 	{
 		boolean search = inventory.contains(i);
 		return search;
-	}
-	
-	public double attack()
-	{
-		return (getStrength().getValue()) + (1.8 * getWeapon().getWeaponDamage());
-	}
-	
-	public void useAbility(Ability a)
-	{
-		a.activate(this);
 	}
 	
 	public void addItemToInventory(Item i)
@@ -165,5 +186,86 @@ public class Character
 			System.out.println("Inventory full");
 		}
 	}
+	
+	///////////////////////////////////////////////////////////////COMBAT////////////////////////////////////////////////////////////
 
+	public double attack()
+	{
+		return (getStrength().getValue()) + (1.8 * getWeapon().getWeaponDamage());
+	}
+	
+	public void getAttacked(Enemy e)
+	{
+		double charHealth = getHealth().getValue();
+		charHealth -= (e.attack()) - (1.8 * getDefense().getValue()) - (3.0 * getArmor().getArmorBonus());
+		getHealth().setValue(charHealth);
+		checkStatus();
+	}
+	
+	public void halfAllStatsIfBloodied()
+	{
+		getDefense().setValue(getDefense().getValue() / 2);
+		getStrength().setValue(getStrength().getValue() / 2);
+		getToughness().setValue(getToughness().getValue() / 2);
+	}
+	
+	public void returnStatsToNormal()
+	{
+		getDefense().setValue(getDefense().getValue() * 2);
+		getStrength().setValue(getStrength().getValue() * 2);
+		getToughness().setValue(getToughness().getValue() * 2);
+	}
+	
+	public boolean isCharBloodied() 
+	{
+		return isCharBloodied;
+	}
+
+	public void setCharBloodied(boolean isCharBloodied) 
+	{
+		this.isCharBloodied = isCharBloodied;
+	}
+
+	public void checkStatus()
+	{
+		double charHealth = getHealth().getValue();
+		if(charHealth <= 100 && charHealth > 30)
+			if(isCharBloodied)
+			{
+				getDefense().setValue(getDefense().getValue() / 2);
+				getStrength().setValue(getStrength().getValue() / 2);
+				getToughness().setValue(getToughness().getValue() / 2);
+				setStatus(Status.ALIVE);
+			}
+			else 
+				setStatus(Status.ALIVE);
+		if(charHealth <= 30 && charHealth != 0)
+			if(!isCharBloodied)
+			{
+				setStatus(Status.BLOODIED);
+				halfAllStatsIfBloodied();
+				isCharBloodied = true;
+			}
+			else if(isCharBloodied)
+			{
+				setStatus(Status.BLOODIED);
+			}
+		if(charHealth <= 0)
+			setStatus(Status.DEAD);	
+	}
+	
+	public Status getStatus() 
+	{
+		return status;
+	}
+
+	public void setStatus(Status status) 
+	{
+		this.status = status;
+	}
+
+	public void useAbility(Ability a)
+	{
+		a.activate(this);
+	}
 }

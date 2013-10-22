@@ -12,7 +12,7 @@ public class WoodlandThief extends Enemy
 		setStrength(WOODLAND_THIEF_STRENGTH);
 		setRes(WOODLAND_THIEF_RES);
 		setHealth(WOODLAND_THIEF_HEALTH);
-		type = EnemyTypes.WOODLAND_THIEF;
+		setType(EnemyTypes.WOODLAND_THIEF);
 	}
 	
 	

@@ -7,14 +7,14 @@ public class Enemy
 	private static final int BASE_RES = 9;
 	private static final int BASE_STRENGTH = 15;
 	private static final double BASE_HEALTH = 35;
-	public Status status;
-	public EnemyTypes type;
-	public DefenseType dt;
+	private Status status;
+	private EnemyTypes type;
 	private double health;
 	private int res, strength;
 	private String name, desc;
+	private Weapon weapon;
 	
-	//make a random enemy with no stats
+	//////////////////////////////////////////////////////////CONSTRUCTORS///////////////////////////////////////////////////////////////
 	public Enemy()
 	{
 		health = BASE_HEALTH;
@@ -22,11 +22,10 @@ public class Enemy
 		strength = BASE_STRENGTH;
 		name = "An enemy";
 		desc = "A bio";
-		status = Status.ALIVE;
-		dt = null;
+		setStatus(Status.ALIVE);
+		weapon = null;
 	}
 	
-	//make an enemy with specialized name and description
 	public Enemy(String n, String b)
 	{
 		health = BASE_HEALTH;
@@ -34,16 +33,28 @@ public class Enemy
 		strength = BASE_STRENGTH;
 		name = n;
 		desc = b;
-		status = Status.ALIVE;
-		dt = null;
+		setStatus(Status.ALIVE);
+		weapon = null;
 	}
 	
-	//set and get methods to be used outside class (same as character)
-	public void setDefenseType(DefenseType t)
-	{
-		dt = t;
-	}
+	/////////////////////////////////////////////////////////////SETTERS AND GETTERS///////////////////////////////////////////////////////
 	
+	public Status getStatus() {
+		return status;
+	}
+
+	public void setStatus(Status status) {
+		this.status = status;
+	}
+
+	public EnemyTypes getType() {
+		return type;
+	}
+
+	public void setType(EnemyTypes type) {
+		this.type = type;
+	}
+
 	public void setRes(int r)
 	{
 		if(r <= BASE_RES)
@@ -104,13 +115,21 @@ public class Enemy
 		return name;
 	}
 	
+	//////////////////////////////////////////////////////////////////////COMBAT////////////////////////////////////////////////////////////////////////////
+	
+	
 	public void getAttacked(Character c)
 	{
 		health -= (c.attack()) - (1.5 * res);
 		if(health <= 0)
 		{
-			status = Status.DEAD;
+			setStatus(Status.DEAD);
 		}
+	}
+
+	public double attack() 
+	{
+		return strength + weapon.getWeaponDamage();
 	}
 
 }
