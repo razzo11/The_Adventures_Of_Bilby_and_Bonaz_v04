@@ -16,8 +16,9 @@ public class Character
    private Weapon weapon;
    private Armor armor;
    private boolean isCharBloodied;
-   private Status status;    
-   //5 items and 5 abilities
+   private Status status;   
+   private Potion[] potions = new Potion[5];
+   //5 items and 5 abilities and 5 stats
    private ArrayList<Item> inventory = new ArrayList<Item>(5);
    private ArrayList<Ability> abilities = new ArrayList<Ability>(5);
    private ArrayList<Stat> stats = new ArrayList<Stat>(5); //hlth, str, def, tgh, wlt
@@ -169,6 +170,11 @@ public class Character
 	
 	///////////////////////////////////////////////////INVENTORY MANIPULATION//////////////////////////////////////////////////////////
 
+    public void useItem(Item i)
+    {
+    	i.effect();
+    }
+    
 	public boolean searchInventory(Item i)
 	{
 		boolean search = inventory.contains(i);
@@ -187,7 +193,15 @@ public class Character
 		}
 	}
 	
-	///////////////////////////////////////////////////////////////COMBAT////////////////////////////////////////////////////////////
+	public Potion[] getPotions() {
+		return potions;
+	}
+
+	public void setPotions(Potion[] potions) {
+		this.potions = potions;
+	}
+	
+	///////////////////////////////////////////////////////////////COMBAT//////////////////////////////////////////////////////////
 
 	public double attack()
 	{
@@ -232,9 +246,9 @@ public class Character
 		if(charHealth <= 100 && charHealth > 30)
 			if(isCharBloodied)
 			{
-				getDefense().setValue(getDefense().getValue() / 2);
-				getStrength().setValue(getStrength().getValue() / 2);
-				getToughness().setValue(getToughness().getValue() / 2);
+				//return combat stats to normal
+				returnStatsToNormal();
+				setCharBloodied(false);
 				setStatus(Status.ALIVE);
 			}
 			else 
@@ -242,6 +256,7 @@ public class Character
 		if(charHealth <= 30 && charHealth != 0)
 			if(!isCharBloodied)
 			{
+				//half combat stats if character is bloodied
 				setStatus(Status.BLOODIED);
 				halfAllStatsIfBloodied();
 				isCharBloodied = true;
