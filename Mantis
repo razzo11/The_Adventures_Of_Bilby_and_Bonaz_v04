@@ -1,0 +1,25 @@
+package bilbyandbonaz;
+
+public class Giant_Mantis extends enemy
+{
+  private static final int MANTIS_STRENGHT = 15;
+  private static final int MANTIS_RES = 12;
+  private static final inn MANTIS_HEALTH = 48;
+  private static final String MANTIS_BIO = "Giant insect with razor sharp arms"
+  private static final String ENEMY_NAME = "Giant Mantis"
+  
+  pubic Giatn_Mantis()
+  {
+    setDesc (MANTIS_BIO);
+    setName (ENEMY_NAME);
+    
+  }
+  
+  public Giant_Mantis (String n, String b)
+  {
+    super(n,b);
+    
+    setDesc (MANTIS_BIO);
+    setName (ENEMY_NAME);
+  }
+}
