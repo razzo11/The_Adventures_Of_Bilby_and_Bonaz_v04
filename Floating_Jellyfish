@@ -1,0 +1,28 @@
+package bilbyandbonaz;
+
+public class Floating_Jellyfish extends Enemy
+{
+
+  private static final int FLOATING_JELLYFISH_STRENGTH = 9;
+  private static final int FLOATING_JELLYFISH_RES = 30;
+  private static final double FLOATING_JELLYFISH_HEALTH = 60;
+  private static final String FLOATING_JELLYFISH_BIO = "Swims through the air with lazy grace";
+  private static final String ENEMY_NAME ="Floating Jellyfish";
+  
+  public Floating_Jellyfish()
+  {
+    setStrength(FLOATING_JELLYFISHI_STRENGTH);
+    setRes(FLOATING_JELLYFISH_RES);
+    setHeath(FLOATING_JELLYFISH_HEALTH);
+    setType(EnemyTypes.FLOATING_JELLYFISH);
+  }
+
+
+  public Floating_Jellyfish (String n, String b)
+  {
+    super(n, b);
+    setDesc(FLOATING_JELLYFISH_BIO);
+    setName(ENEMY_NAME);
+  }
+
+}
