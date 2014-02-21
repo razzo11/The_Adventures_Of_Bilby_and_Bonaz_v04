@@ -1,0 +1,26 @@
+package bilbyandbonaz;
+
+public class Centaurmaid extends Enemy
+{
+  private static final int CENTAURMAID_STRENGTH = 20;
+  private static final int CENTAURMAID_RES = 20;
+  private static final double CENTAURMAID_HEALTH = 75;
+  private static final String CENTAURMAID_BIO = "Half man, half horse, half fish... all deadly";
+  private static final String ENEMY_NAME ="Centaurmaid";
+  
+  public Centaurmaid()
+  {
+    setStrength(CENTAURMAID_STRENGTH);
+    setRes(CENTAURMAID_RES);
+    setHeath(CENTAURMAID_HEALTH);
+    setType(EnemyYpyes.CENTAURMAID);
+  }
+  
+  public Centaurmaid(String n, String b)
+  {
+    super(n, b);
+    setDesc(CENTAURMAID_BIO);
+    setName(ENEMY_NAME);
+  }
+  
+}
