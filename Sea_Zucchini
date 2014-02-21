@@ -1,0 +1,26 @@
+package bilbyandbonaz;
+
+public class Sea_Zucchini extends Enemy
+{
+  private static final int SEA_ZUCCHINI_STRENGTH = 10;
+  private static final int SEA_ZUCCHINI_RES = 20;
+  private static final double SEA_ZUCCHINI_HEALTH = 50;
+  private static final String SEA_ZUCCHINI_BIO = "Third cousin of the sea cucumber";
+  private static final String ENEMY_NAME ="Sea Zucchini";
+  
+  public Sea_Zucchini()
+  {
+    setStrength(SEA_ZUCCHINI_STRENGTH);
+    setRes(SEA_ZUCCHINI_RES);
+    setHeath(SEA_ZUCCHINI_HEALTH);
+    setType(EnemyYpyes.SEA_ZUCCHINI);
+  }
+  
+  public Sea_Zucchini(String n, String b)
+  {
+    super(n, b);
+    setDesc(SEA_ZUCCHINI_BIO);
+    setName(ENEMY_NAME);
+  }
+  
+}
