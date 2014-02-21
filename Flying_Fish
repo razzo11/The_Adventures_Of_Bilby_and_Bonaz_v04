@@ -1,0 +1,28 @@
+package bilbyandbonaz;
+
+public class Flying_Fish extends Enemy
+{
+
+  private static final int FLYING_FISH_STRENGTH = 20;
+  private static final int FLYING_FISH_RES = 5;
+  private static final double FLYING_FISH_HEALTH = 45;
+  private static final String FLYING_FISH_BIO = "Has razor sharp scales, dont get hit!";
+  private static final String ENEMY_NAME ="Flying Fish";
+  
+  public Flying_Fish()
+  {
+    setStrength(FLYING_FISH_STRENGTH);
+    setRes(FLYING_FISH_RES);
+    setHeath(FLYING_FISH_HEALTH);
+    setType(EnemyTypes.FLYING_FISH);
+  }
+
+
+  public Flying_Fish(String n, String b)
+  {
+    super(n, b);
+    setDesc(FLYING_FISHI_BIO);
+    setName(ENEMY_NAME);
+  }
+
+}
